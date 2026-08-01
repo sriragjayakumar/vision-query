@@ -3,7 +3,8 @@ import torch
 from ultralytics import YOLO, YOLOWorld
 from vidgear.gears import CamGear
 import json
-
+from utils import clean_youtube_url
+import time
 with open("pose_names.json", "r") as f:
     pose_map = json.load(f)
 
@@ -18,6 +19,7 @@ print(
 # ---------------------------------------------------------
 
 VIDEO_SOURCE = input("Enter a YouTube URL, stream URL, or local video path: ").strip()
+VIDEO_SOURCE = clean_youtube_url(VIDEO_SOURCE)
 OBJECT_NAME = input("Enter the object you want to detect: ").strip().lower()
 
 if not VIDEO_SOURCE:
@@ -67,7 +69,7 @@ else:
 
 WORLD_CONFIDENCE = 0.25
 POSE_CONFIDENCE = 0.35
-IMAGE_SIZE = 640
+IMAGE_SIZE = 800
 
 
 # ---------------------------------------------------------
@@ -77,7 +79,11 @@ IMAGE_SIZE = 640
 try:
     while True:
         frame = stream.read()
-
+        current_time_ms = stream.stream.get(cv2.CAP_PROP_POS_MSEC)
+        current_time = time.strftime(
+            "%H:%M:%S",
+            time.gmtime(current_time_ms / 1000)
+        )
         if frame is None:
             break
 
@@ -101,6 +107,7 @@ try:
                 )
 
                 confidence = float(box.conf[0])
+                print(f"[{current_time}] {OBJECT_NAME} detected")
 
                 cv2.rectangle(
                     output_frame,
@@ -139,7 +146,7 @@ try:
                 boxes=False,
                 conf=False,
                 kpt_radius=3,
-                kpt_line=True
+                kpt_line= False
             )
 
         cv2.imshow(
