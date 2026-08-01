@@ -1,0 +1,78 @@
+{
+  "nose": [
+    "nose",
+    "nostril",
+    "nostrils"
+  ],
+  "eye": [
+    "eye",
+    "eyes",
+    "left eye",
+    "right eye"
+  ],
+  "ear": [
+    "ear",
+    "ears",
+    "left ear",
+    "right ear"
+  ],
+  "shoulder": [
+    "shoulder",
+    "shoulders",
+    "left shoulder",
+    "right shoulder"
+  ],
+  "elbow": [
+    "elbow",
+    "elbows",
+    "left elbow",
+    "right elbow"
+  ],
+  "wrist": [
+    "wrist",
+    "wrists",
+    "hand",
+    "hands",
+    "left hand",
+    "right hand",
+    "palm",
+    "palms"
+  ],
+  "hip": [
+    "hip",
+    "hips",
+    "pelvis",
+    "waist"
+  ],
+  "knee": [
+    "knee",
+    "knees",
+    "left knee",
+    "right knee"
+  ],
+  "ankle": [
+    "ankle",
+    "ankles",
+    "foot",
+    "feet",
+    "left foot",
+    "right foot"
+  ],
+  "body": [
+    "person",
+    "people",
+    "human",
+    "body",
+    "torso",
+    "chest",
+    "back",
+    "upper body",
+    "lower body",
+    "man",
+    "woman",
+    "boy",
+    "girl",
+    "adult",
+    "child"
+  ]
+}
