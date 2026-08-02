@@ -13,6 +13,7 @@
 models/
 weights/
 checkpoints/
+detectedImages/
 
 # --------------------------------------------------
 # Python
