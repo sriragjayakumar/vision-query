@@ -1,6 +1,6 @@
 # Vision Query
 
-**Vision Query** is a Python library that uses **YOLO-World** and **YOLO Pose** to detect, locate, and search for objects in local videos, YouTube videos, and live streams.
+**Vision Query** is a Python library that uses **YOLO-World** to detect, locate, and search for objects in local videos, YouTube videos, and live streams.
 
 Instead of detecting every object in a frame, Vision Query searches for a **single user-specified object**, making inference faster and better suited for video search applications.
 
@@ -15,7 +15,6 @@ Instead of detecting every object in a frame, Vision Query searches for a **sing
   * YouTube videos
   * Live streams
 * 🧠 Open-vocabulary object detection using **YOLO-World**
-* 🏃 Human pose estimation using **YOLO Pose**
 * ⚡ Automatic GPU acceleration when CUDA is available
 * 📦 Simple Python implementation with minimal dependencies
 
@@ -26,9 +25,6 @@ Instead of detecting every object in a frame, Vision Query searches for a **sing
 1. Open a video source.
 2. Ask the user which object to detect.
 3. Configure YOLO-World to search only for that object.
-4. If the object is body-related (e.g. `nose`, `palm`, `eyes`), automatically enable pose estimation.
-5. Display detections in real time.
-
 ---
 
 ## Supported Video Sources
@@ -109,7 +105,7 @@ Vision Query automatically enables pose estimation for supported body-part queri
 vision-query/
 │
 ├── main.py
-├── pose_names.json
+├── utils.py
 ├── requirements.txt
 ├── README.md
 ├── LICENSE
@@ -140,48 +136,6 @@ Examples of searchable objects include:
 …and many more.
 
 ---
-
-### YOLO Pose
-
-Automatically enabled for body-related queries such as:
-
-* hand
-* foot
-* eyes
-* nose
-* wrist
-* ankle
-* shoulder
-* elbow
-* knee
-* person
-
-Pose estimation is used to highlight the relevant body keypoints.
-
----
-
-## Example Workflow
-
-```text
-Video
-        │
-        ▼
-YOLO-World
-        │
-        ▼
-Detect requested object
-        │
-        ├── Normal object
-        │       └── Draw bounding box
-        │
-        └── Body-related object
-                │
-                ▼
-            YOLO Pose
-                │
-                ▼
-      Highlight matching body keypoints
-```
 
 ---
 
