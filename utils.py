@@ -1,4 +1,9 @@
+import time
+import zipfile
+from pathlib import Path
+from typing import Optional
 from urllib.parse import parse_qs, urlparse
+
 import cv2
 
 
@@ -22,6 +27,42 @@ def clean_youtube_url(url: str) -> str:
         if video_id:
             return f"https://www.youtube.com/watch?v={video_id}"
     return url.strip()
+
+
+def timestamp_from_msec(milliseconds: float, frame_number: int, fps: float) -> str:
+    if milliseconds <= 0 and fps > 0:
+        milliseconds = (frame_number / fps) * 1000
+    total_ms = max(0, int(milliseconds))
+    hours, remainder = divmod(total_ms, 3_600_000)
+    minutes, remainder = divmod(remainder, 60_000)
+    seconds, millis = divmod(remainder, 1_000)
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}.{millis:03d}"
+
+
+def create_output_dir(output_root: Path) -> Path:
+    run_id = time.strftime("%Y%m%d_%H%M%S")
+    output_dir = output_root / run_id
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return output_dir
+
+
+def save_frame(frame, output_dir: Path, timestamp: str, frame_number: int, quality: int) -> Path:
+    safe_timestamp = timestamp.replace(":", "-").replace(".", "-")
+    path = output_dir / f"detection_{safe_timestamp}_frame_{frame_number:08d}.jpg"
+    ok = cv2.imwrite(str(path), frame, [cv2.IMWRITE_JPEG_QUALITY, quality])
+    if not ok:
+        raise RuntimeError(f"Could not save {path.name}")
+    return path
+
+
+def make_zip(files: list[Path], output_dir: Path) -> Optional[Path]:
+    if not files:
+        return None
+    zip_path = output_dir / "detections.zip"
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for file in files:
+            archive.write(file, arcname=file.name)
+    return zip_path
 
 
 def get_video_fps(stream):

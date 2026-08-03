@@ -11,7 +11,7 @@ from utils import clean_youtube_url, get_video_timestamp
 # =========================================================
 
 WORLD_MODEL_PATH = "yolov8x-worldv2.pt"
-WORLD_CONFIDENCE = 0.10
+WORLD_CONFIDENCE = 0.05
 IMAGE_SIZE = 640
 FRAME_INTERVAL = 1
 BATCH_SIZE = 4
