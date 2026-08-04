@@ -13,10 +13,10 @@ from utils import clean_youtube_url, get_video_timestamp
 WORLD_MODEL_PATH = "yolov8x-worldv2.pt"
 WORLD_CONFIDENCE = 0.05
 IMAGE_SIZE = 640
-FRAME_INTERVAL = 1
+FRAME_INTERVAL = 10
 BATCH_SIZE = 4
 SAVE_DETECTIONS = True
-JPEG_QUALITY = 85
+JPEG_QUALITY = 25
 OUTPUT_DIRECTORY = Path("detectedImages")
 OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
 

@@ -2,8 +2,8 @@ import time
 import zipfile
 from pathlib import Path
 from typing import Optional
-from urllib.parse import parse_qs, urlparse
-
+from urllib.parse import urlparse, parse_qs
+from yt_dlp import YoutubeDL
 import cv2
 
 
@@ -101,3 +101,54 @@ def get_video_timestamp(frame_number,stream):
     frame_index = max(frame_number - 1, 0)
     video_seconds = frame_index / get_video_fps(stream)
     return seconds_to_timestamp(video_seconds)
+
+
+
+
+
+def get_playlist_urls(url: str):
+    """
+    Accepts either:
+        https://www.youtube.com/watch?v=...&list=...
+    or
+        https://www.youtube.com/playlist?list=...
+
+    Returns:
+        list[str] of every video URL in the playlist.
+    """
+
+    parsed = urlparse(url)
+
+    if "playlist" not in parsed.path:
+        qs = parse_qs(parsed.query)
+
+        if "list" not in qs:
+            raise ValueError("This video is not part of a playlist.")
+
+        playlist_id = qs["list"][0]
+        url = f"https://www.youtube.com/playlist?list={playlist_id}"
+
+    ydl_opts = {
+        "quiet": True,
+        "extract_flat": "in_playlist",
+        "skip_download": True,
+        "ignoreerrors": True,
+        "playlistend": None,
+    }
+
+    with YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+
+    if "entries" not in info:
+        raise RuntimeError("Could not extract playlist.")
+
+    urls = []
+    for entry in info["entries"]:
+        if entry is None:
+            continue
+
+        video_id = entry.get("id")
+
+        if video_id:
+            urls.append(f"https://www.youtube.com/watch?v={video_id}")
+    return urls
