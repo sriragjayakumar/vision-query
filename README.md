@@ -158,7 +158,6 @@ pip install -r requirements.txt
 
 ## Future Roadmap
 
-* Multiple object search
 * Video indexing
 * Timestamp extraction
 * Export detections to JSON
