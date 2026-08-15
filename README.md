@@ -135,8 +135,6 @@ Examples of searchable objects include:
 * person
 * helmet
 * keyboard
-* bottle
-* laptop
 * microphone
 * backpack
 * bicycle
