@@ -23,7 +23,6 @@ OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
 # =========================================================
 # DEVICE
 # =========================================================
-
 cuda_available = torch.cuda.is_available()
 device = 0 if cuda_available else "cpu"
 use_half = cuda_available
